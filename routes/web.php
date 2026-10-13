@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\PostApiController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\PostController;
@@ -19,3 +20,11 @@ Route::resource('comments', CommentController::class);
 Route::resource('tags', TagController::class);
 
 
+Route::get('/signup', [AuthController::class, 'showSignUp'])->name('register');
+
+
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+
+Route::post('/signup', [AuthController::class, 'signup']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);
