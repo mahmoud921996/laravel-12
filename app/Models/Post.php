@@ -18,7 +18,8 @@ class Post extends Model
         'title',
         'body',
         'published',
-        'author',
+        // 'author',
+        "user_id"
     ];
     public function comments()
     {
@@ -27,5 +28,8 @@ class Post extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
+    }
+    public function user(){
+        return $this->belongsTo(User::class);
     }
 }

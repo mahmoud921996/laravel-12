@@ -94,9 +94,9 @@
             <a href="{{ url('/') }}" class="logo">My Website</a>
 
             <nav class="nav-links">
-                <a href="{{ route('blog.index') }}">Blog</a>
-                <a href="{{ url('/about') }}">About</a>
-                <a href="{{ url('/contact') }}">Contact</a>
+                <a href="/blog">Blog</a>
+                <!-- <a href="{{ url('/about') }}">About</a>
+                <a href="{{ url('/contact') }}">Contact</a> -->
             </nav>
 
             <div class="auth-links">

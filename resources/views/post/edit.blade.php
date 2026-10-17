@@ -191,11 +191,11 @@
           required>{{ old('body', $post->body) }}</textarea>
       </div>
 
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label for="author">Author</label>
         <input type="text" id="author" name="author" placeholder="Enter author name"
           value="{{ old('author', $post->author) }}" required>
-      </div>
+      </div> -->
 
       <div class="checkbox-group">
         <input type="checkbox" id="published" name="published" value="1" @checked(old('published', $post->published))>
@@ -204,7 +204,7 @@
 
       <div class="buttons">
         <button type="submit">Save Changes</button>
-        <a href="{{ route('blog.index') }}" class="cancel-button">
+        <a href="/blog" class="cancel-button">
           Cancel
         </a>
       </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\BlogPostRequest;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
@@ -37,7 +38,8 @@ class PostController extends Controller
         $post->title = $request->input("title");
         $post->published = $request->boolean("published");
         $post->body = $request->input("body");
-        $post->author = $request->input("author");
+        $post->user_id = auth()->id();
+        // $post->author = $request->input("author");
         $post->save();
         return redirect("/blog")->with("success", "post added successfully");
 
@@ -56,9 +58,10 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Post $post)
     {
-        $post = Post::findOrFail($id);
+        // $post = Post::findOrFail($id);
+        // Gate::authorize("update", $post);
 
         return view("post.edit", ["post" => $post]);
     }
@@ -66,14 +69,17 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(BlogPostRequest $request, string $id)
+    public function update(BlogPostRequest $request, Post $post)
     {
         //
-        $post = Post::findOrFail($id);
+        // $post = Post::findOrFail($id);
+        if ($post->user_id != auth()->id()) {
+            return redirect("/blog")->with("fail", "you can't edit this post ");
+        }
         $post->title = $request->input("title");
         $post->published = $request->boolean("published");
         $post->body = $request->input("body");
-        $post->author = $request->input("author");
+        // $post->author = $request->input("author");
         $post->save();
         return redirect("/blog")->with("success", "Post updated successfully");
     }

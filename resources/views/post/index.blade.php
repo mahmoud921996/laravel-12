@@ -79,6 +79,15 @@
       color: #065f46;
     }
 
+    .fail-message {
+      margin-bottom: 24px;
+      padding: 14px 18px;
+      border: 1px solid red;
+      border-radius: 8px;
+      background: red;
+      color: #f5f5f5;
+    }
+
     .posts {
       display: grid;
       gap: 20px;
@@ -201,15 +210,25 @@
         <h1>My Blog</h1>
         <p class="subtitle">Manage your posts in one place.</p>
       </div>
+      @php
+        $userRole = auth()->user()->role;
+      @endphp
+      @if (in_array($userRole, ['admin', 'editor']))
+        <a href="/blog/create" class="btn btn-create">
+          + Create Post
+        </a>
+      @endif
 
-      <a href="{{ route('blog.create') }}" class="btn btn-create">
-        + Create Post
-      </a>
     </header>
 
     @if (session('success'))
       <div class="success-message">
         {{ session('success') }}
+      </div>
+    @endif
+    @if (session('fail'))
+      <div class="fail-message">
+        {{ session('fail') }}
       </div>
     @endif
 
@@ -225,7 +244,7 @@
 
             <div class="post-footer">
               <div class="post-author">
-                By <strong>{{ $post->author }}</strong>
+                By <strong>{{ $post->user->name }}</strong>
 
                 <span>
                   · {{ $post->published ? 'Published' : 'Draft' }}
@@ -233,19 +252,24 @@
               </div>
 
               <div class="post-actions">
-                <a href="{{ route('blog.edit', $post->id) }}" class="btn btn-edit">
-                  Edit
-                </a>
+                @if (in_array($userRole, ['admin', 'editor']))
+                  <a href="{{ url('/blog/' . $post->id . '/edit') }}" class="btn btn-edit">
+                    Edit
+                  </a>
 
-                <form action="/blog/{{ $post->id }}" method="POST"
-                  onsubmit="return confirm('Are you sure you want to delete this post?')">
-                  @csrf
-                  @method('DELETE')
+                @endif
+                @if ($userRole == 'admin')
+                  <form action="/blog/{{ $post->id }}" method="POST"
+                    onsubmit="return confirm('Are you sure you want to delete this post?')">
+                    @csrf
+                    @method('DELETE')
 
-                  <button type="submit" class="btn btn-delete">
-                    Delete
-                  </button>
-                </form>
+                    <button type="submit" class="btn btn-delete">
+                      Delete
+                    </button>
+                  </form>
+                @endif
+
               </div>
             </div>
           </article>

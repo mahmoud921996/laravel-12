@@ -20,7 +20,7 @@ class BlogPostRequest extends FormRequest
             //
             "title" => "bail|required|unique:post,title,{$this->input('id')},id",
             "body" => "required",
-            "author" => "required",
+            // "author" => "required",
         ];
     }
     public function messages(): array
@@ -28,7 +28,7 @@ class BlogPostRequest extends FormRequest
         return [
             "title.required" => "Field is required",
             "body.required" => "Field is required",
-            "author.required" => "Field is required",
+            // "author.required" => "Field is required",
         ];
     }
 }

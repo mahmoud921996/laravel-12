@@ -149,10 +149,10 @@
         </textarea>
       </div>
 
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label for="author">Author</label>
         <input type="text" id="author" name="author" placeholder="Enter author name" value="{{ old('author') }}">
-      </div>
+      </div> -->
 
       <div class="checkbox-group">
         <input type="checkbox" id="published" name="published" value="1">
